@@ -1,0 +1,118 @@
+.rowContainer {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid green;
+    color: white;
+  }
+  
+  .rowContainer .headerInfo {
+    background: green;
+  }
+  .headerInfo {
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .headerInfo .title h4 {
+    margin: 0;
+  }
+  
+  .rowContainer .innerRow {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+  }
+  
+  .columnContainer {
+    width: 350px;
+    border: 2px solid #aaaaaa;
+    flex: 1;
+    margin: 0 5px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .columnContainer .headerInfo {
+      background: blue;
+  }
+
+  .columnContainer .innerColumnContent {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 50px;
+    }
+  
+  .innerPageElem {
+    cursor: grab;
+  }
+  
+  .innerPageElem:active {
+    cursor: grabbing;
+  }
+
+  .draggableElem * {
+      pointer-events: none;
+  }
+
+  .draggableElem {
+    display: flex;
+}
+
+.basicImageElement img {
+    width: 100%;
+}
+
+.basicHeroElement {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #d6d6d6;
+}
+
+.basicHeroElement h5 {
+    font-size: 20px;
+    margin: 0;
+    line-height: 2em;
+}
+
+.basicHeroElement button {
+    width: fit-content;
+    flex: 0;
+    display: flex;
+}
+
+button {
+    font-size: 16px;
+    background: #2196F3;
+    color: white;
+    font-family: monospace;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    transition: 0.25s ease all;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1E88E5;
+    transition: 0.35s ease all;
+    box-shadow: 0 5px 10px rgb(0 0 0 / 0.65);
+}
+
+
+button:active {
+    background: #043d6f;
+    transition: 0.05s ease all;
+    box-shadow: 0 0 0 black;
+}
+
+button:focus {
+    outline: none;
+}

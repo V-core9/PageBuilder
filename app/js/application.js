@@ -212,7 +212,7 @@ function drawBloxBuilderView(){
                                                 <div class="sectionInnerContent">
                                                 </div>
                                                 <div class="sectionInnerFooter">
-                                                    <button class="addNewRow" onclick="addNewRowToSection(`+x+`)">Add Row</button>
+                                                    <button class="addNewRow" onclick="addNewRowToSectionModal(`+x+`)">Add Row</button>
                                                 </div>
                                             </div>`;
 
@@ -242,11 +242,77 @@ function drawBloxBuilderView(){
 }
 //!!
 
-// Add new row to section
-function addNewRowToSection(x){
-    appObject.pageFiles[appObject.fileSelected].pageSections[x].sectionRows.push({"name": "demoRowName", "structure": "full", 'columns': []})
+// Modal ew row  to section
+function addNewRowToSectionModal(x){
     
-    drawPageViewContainer();
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: addNewRowToSectionModal()');
+    }
+
+    if (document.getElementById('newRowModal') != null){
+        document.getElementById('newRowModal').remove();
+        
+        if (appObject.debugConfirmed){
+            debugLogEvent('Removing Existing newRowModal');
+        }
+    }
+    
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating newRowModal');
+    }
+
+    document.getElementById('applicationContainer').innerHTML +=    `<div id='newRowModal' class="modalContainer">
+                                                                        <div class="modalInner">
+                                                                            <div class="modalHeader">
+                                                                                <h4 class="modalTitle">New Page</h4>
+                                                                                <button onclick="closeModal(this)">X</button>
+                                                                            </div>
+                                                                            <div class="modalContent">
+                                                                                `+ printSingleOption('text','newRowName') +`
+                                                                                
+                                                                                <div class="singleOption" >
+                                                                                    <p>Name</p>
+                                                                                    <div class="options">
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/4_1/4'>50% : 25% : 25%</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <input id='sectionIdNum' type='number' value='`+x+`' hidden>
+                                                                            </div>
+                                                                            <div class="modalFooter">
+                                                                                <button onclick="closeModal(this)">Cancel</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+}
+//!!
+
+// Add new row to section
+function addNewRowToSection(elem){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating addNewRowToSection()');
+    }
+
+    var helperID = document.getElementById('sectionIdNum').value;
+    
+    if (helperID.value != ""){
+
+        appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows.push({"name": "demoRowName", "type": elem.value, 'columns': []})
+    
+        drawPageViewContainer();
+
+        closeModal(document.querySelector('#newRowModal .modalInner'));
+
+    } else {
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Missing Data()');
+        }
+        
+        closeModal(document.querySelector('#newRowModal .modalInner'));
+    }
 }
 //!!
 

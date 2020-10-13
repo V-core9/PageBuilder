@@ -2,13 +2,13 @@
 function startDebugApp(){
     debugLogEvent('startDebugApp()');
     document.documentElement.innerHTML += debugAppHtml();
-    loadCssStyle('debug-css', 'css/debug.css');
+    loadCssStyle('debug-css', 'css/debug.min.css');
     
     appObject.debugConfirmed = true;
 }
 
 
-function debugLogEvent(message){
+function debugLogEvent(message, type = null){
     console.log(message);
     if (appObject.debugConfirmed){
         document.getElementById('debugEventLog').innerHTML += singleDebugLogEventHTML(message);
@@ -37,6 +37,9 @@ function debugAppHtml(){
             </div>`
 }
 
-function singleDebugLogEventHTML(message){
-    return `<div class='singleLogItem'>`+message+`</div>`;
+function singleDebugLogEventHTML(message, type){
+    if (type == null){
+        type = '';
+    }
+    return `<div class='singleLogItem  `+type+`'>`+message+`</div>`;
 }

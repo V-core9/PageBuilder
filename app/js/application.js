@@ -1,0 +1,430 @@
+//
+//  Application Name: Demo PageBuilder 
+//  Description: Easy drag and drop pagebuilder. Hopefully visual editor in closer future.
+//  Author: Slavko Vuletic
+//
+//
+//  1. Application Object set
+//  2. Pagebuilder starting function
+//  3. Create App Container
+//  
+//  .
+//  .
+//  .
+//  999. HELPERS FUNCTION SECTION
+//          1. loadJavaScript(nameScript, scriptUrl, callBCK = null)    |> loading additional JS files
+//          2. function loadCssStyle(nameStyle, styleURL)               |> loading additional CSS files
+
+
+// 1. Application Object set 
+var appObject = {
+    'debug' : true,
+    'viewMode'  : 'bloxBuilder',
+};
+//!! 1. Application Object set !!//
+
+
+// 2. Pagebuilder starting function
+function startPageBuilder(){
+
+    // add some space to object
+    appObject.pageFiles = [];
+    
+    // Check if debug active to load JS and start it
+    if (appObject.debug){
+        appObject.debugConfirmed = false;
+        loadJavaScript('debug-js', 'js/debug.js', 'startDebugApp');
+    }
+
+    // call to start creating HTML content
+    createApplicationContainer();
+
+}
+//!! 2. Pagebuilder starting function !!//
+
+// 3. Create App Container
+function createApplicationContainer(){
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: createApplicationContainer()');
+    }
+
+    document.documentElement.innerHTML += appContainerHTML();
+    
+    loadCssStyle('application-css', 'css/application.min.css'); 
+    loadCssStyle('inputs-css', 'css/inputs.min.css'); 
+    loadCssStyle('modal-css', 'css/modal.min.css'); 
+    loadCssStyle('theme_default-css', 'css/theme_default.min.css'); 
+}
+//!! 3. Create App Container !!//
+
+// 4. Application Container HTML 
+function appContainerHTML(){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: appContainerHTML()');
+    }
+
+    return  `<div id="applicationContainer">
+                <div id="appHeader">
+                    <div id="logoArea">
+                        <p><{:|YEA|:}></p>
+                    </div>
+                    <div id="navigationArea">
+                        <button onclick="createNewPageFileModal()">New Page</button>
+                    </div>
+                </div>
+                <div id="appContent">
+
+
+                    <div id="addNewSection">
+                        <button onclick="addNewSection()">Add Section</button>
+                    </div>
+                </div>
+                <div id="appFooter">
+                    <div id="tabsFooter">
+                    </div>
+                    <div id="devCredits">
+                        <p>MikiYEAAA</p>
+                    </div>
+                </div>
+            </div>`
+}
+//!! 4. Application Container HTML !!//
+
+// 5. Create New Page File
+function createNewPageFile(elem){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: createNewPageFile()');
+    }
+
+    var pageNameHelper = document.getElementById('newFileName-val').value;
+
+    if ((pageNameHelper == null) || (pageNameHelper == "")){
+        if (appObject.debugConfirmed){
+            debugLogEvent('Generating unique name for new PageFile');
+        }
+        pageNameHelper = 'page-'+generateRandomNumber();
+    }
+
+    var x;
+    for (x in appObject.pageFiles){
+        if (appObject.pageFiles[x].name == pageNameHelper){
+            debugLogEvent('PageFile already exists!', 'warning');
+            pageNameHelper += '-'+generateRandomNumber();
+        }
+    }
+
+    appObject.pageFiles.push({'name': pageNameHelper,'slug': pageNameHelper,'seo_title': pageNameHelper, 'pageSections': []});
+
+    appObject.fileSelected = (appObject.pageFiles.length - 1);
+
+    closeModal(elem);
+    drawPageViewContainer();
+    updateFooterTabs();
+}
+//!! 5. Create New Page File  !!//
+
+// 
+function createNewPageFileModal(){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: createNewPageFileModal()');
+    }
+
+    if (document.getElementById('newPageFileModal') != null){
+        document.getElementById('newPageFileModal').remove();
+        
+        if (appObject.debugConfirmed){
+            debugLogEvent('Removing Existing newPageFileModal');
+        }
+    }
+    
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating newPageFileModal');
+    }
+
+    document.getElementById('applicationContainer').innerHTML +=    `<div id='newPageFileModal' class="modalContainer">
+                                                                        <div class="modalInner">
+                                                                            <div class="modalHeader">
+                                                                                <h4 class="modalTitle">New Page</h4>
+                                                                                <button onclick="closeModal(this)">X</button>
+                                                                            </div>
+                                                                            <div class="modalContent">
+                                                                                `+ printSingleOption('text','newFileName') +`
+                                                                            </div>
+                                                                            <div class="modalFooter">
+                                                                                <button onclick="createNewPageFile(this)">Create</button>
+                                                                                <button onclick="closeModal(this)">Cancel</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+}
+//!!
+
+// 6. Add new section function 
+function addNewSection(){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: addNewSection()');
+    }
+
+    appObject.pageFiles[appObject.fileSelected].pageSections.push({'name': 'sectionDemoName','background-color':'#444444', 'sectionRows': []});
+
+    drawPageViewContainer();
+
+}
+//!! 6. Add new section function !!//
+
+function drawPageViewContainer(){
+    if (appObject.viewMode == 'bloxBuilder') {
+        debugLogEvent('Drawing PageViewContainer!');
+        drawBloxBuilderView();
+    } else {
+        debugLogEvent('Selected View Mode still not supported!', 'warning');
+        appObject.viewMode = 'bloxBuilder';
+        drawPageViewContainer();
+    }
+}
+
+// drawBloxBuilderView
+function drawBloxBuilderView(){
+    if (document.getElementById('bloxBuilderView') == null){
+        document.getElementById('appContent').innerHTML += "<div id='bloxBuilderView'></div>";
+    }
+    var helperBuilderVar = document.getElementById('bloxBuilderView');
+    helperBuilderVar.innerHTML = "";
+    var currentFile = appObject.pageFiles[appObject.fileSelected];
+    var x, i;
+    for (x in currentFile.pageSections) {
+        //txt += currentFile.pageSections[x];
+
+        helperBuilderVar.innerHTML +=      `<div class="sectionContainer" id="section-`+x+`">
+                                                <div class="headerInfo">
+                                                    <div class="title">
+                                                        <h4>Section Name: `+currentFile.pageSections[x].name+`</h4>
+                                                    </div>
+                                                    <div class="options">
+                                                        <button onclick="console.log(&quot;openSectionOptions&quot;);">O</button>
+                                                        <button>X</button>
+                                                    </div>
+                                                </div>
+                                                <div class="sectionInnerContent">
+                                                </div>
+                                                <div class="sectionInnerFooter">
+                                                    <button class="addNewRow" onclick="addNewRowToSectionModal(`+x+`)">Add Row</button>
+                                                </div>
+                                            </div>`;
+
+        for(i in currentFile.pageSections[x].sectionRows){
+
+            document.querySelector('#section-'+x+' .sectionInnerContent').innerHTML +=  `<div class="sectionContainer rowContainer" id="section-`+x+`-row-`+i+`">
+                                                                                            <div class="headerInfo">
+                                                                                                <div class="title">
+                                                                                                    <h4>Row Name: `+currentFile.pageSections[x].sectionRows[i].name+`</h4>
+                                                                                                </div>
+                                                                                                <div class="options">
+                                                                                                    <button onclick="console.log('openSectionOptions');">O</button>
+                                                                                                    <button>X</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="sectionInnerContent rowColumns">
+                                                                                            
+                                                                                            </div>
+                                                                                            <div class="sectionInnerFooter">
+
+                                                                                            </div>
+                                                                                        </div>`;
+            
+            var helperString = currentFile.pageSections[x].sectionRows[i].type.split("_");
+
+            console.log('yea');
+
+            var n = '';
+
+            console.log('yea2');
+
+            for (n = 0; n < helperString.length; n++){
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn'>  </div>`;
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.display = 'grid';
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.gridTemplateColumns = 'calc( '+helperString.join(' * 100%) calc( ')+' * 100%)';
+            };
+
+            console.log(helperString.length + '  ::  '+ helperString);
+
+        }
+
+    }
+     
+}
+//!!
+
+// Modal ew row  to section
+function addNewRowToSectionModal(x){
+    
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: addNewRowToSectionModal()');
+    }
+
+    if (document.getElementById('newRowModal') != null){
+        document.getElementById('newRowModal').remove();
+        
+        if (appObject.debugConfirmed){
+            debugLogEvent('Removing Existing newRowModal');
+        }
+    }
+    
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating newRowModal');
+    }
+
+    document.getElementById('applicationContainer').innerHTML +=    `<div id='newRowModal' class="modalContainer">
+                                                                        <div class="modalInner">
+                                                                            <div class="modalHeader">
+                                                                                <h4 class="modalTitle">New Page</h4>
+                                                                                <button onclick="closeModal(this)">X</button>
+                                                                            </div>
+                                                                            <div class="modalContent">
+                                                                                `+ printSingleOption('text','newRowName') +`
+                                                                                
+                                                                                <div class="singleOption" >
+                                                                                    <p>Name</p>
+                                                                                    <div class="options">
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/3_1/3_1/3'>33% : 33% : 33%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/4_1/4'>25% :25% : 25% : 25%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/4_1/4'>50% : 25% : 25%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/2_1/4'>25% : 50% : 25%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/2'>25% : 25% : 50%</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <input id='sectionIdNum' type='number' value='`+x+`' hidden>
+                                                                            </div>
+                                                                            <div class="modalFooter">
+                                                                                <button onclick="closeModal(this)">Cancel</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+}
+//!!
+
+// Add new row to section
+function addNewRowToSection(elem){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating addNewRowToSection()');
+    }
+
+    var helperID = document.getElementById('sectionIdNum').value;
+    
+    if (helperID.value != ""){
+
+        appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows.push({"name": "demoRowName", "type": elem.value, 'columns': []})
+    
+        drawPageViewContainer();
+
+        closeModal(document.querySelector('#newRowModal .modalInner'));
+
+    } else {
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Missing Data()');
+        }
+        
+        closeModal(document.querySelector('#newRowModal .modalInner'));
+    }
+}
+//!!
+
+//
+function printSingleOption(type, name){
+    if (type == 'text'){
+        return  `<div class="singleOption" id="`+name+`">
+                    <p>Name</p>
+                    <div class="singleTextInput">
+                        <input type='text' id='`+name+`-val' oninput='if (this.value != "") { document.getElementById("`+name+`-button").style.opacity = "1"; } else { document.getElementById("`+name+`-button").style.opacity = "0"; }'>
+                        <button id='`+name+`-button' onclick='document.getElementById("`+name+`-val").value = ""; this.style.opacity = "0";' style='opacity: 0;'>X</button>
+                    </div>
+                </div>`
+    }
+}
+//!!
+
+
+// Footer Files Tabs
+function updateFooterTabs(){
+    document.getElementById('tabsFooter').innerHTML = "";
+    var x;
+    for (x in appObject.pageFiles){
+        document.getElementById('tabsFooter').innerHTML += `<button>`+appObject.pageFiles[x].name+`</button>`;
+    }
+}
+//!!
+
+//  999. HELPERS FUNCTION SECTION
+// Minor collection of helper functions
+// Used to load rest of stuff when app started
+
+    // 1. Load script helper 
+    function loadJavaScript(nameScript, scriptUrl, callBCK = null){
+        var script = document.createElement('script');
+        script.setAttribute('id',nameScript);
+        if (callBCK != null){
+            script.onload = function () {
+                //do stuff with the script
+                eval(callBCK+'()');
+            };
+        }
+        script.src = scriptUrl;
+
+        document.head.appendChild(script);
+    }
+    //!! 1. Load script helper  !!//
+
+    // 2. Load stylesheet css file
+    function loadCssStyle(nameStyle, styleURL){
+        var styleElem = document.createElement("link");   
+        styleElem.type = 'text/css'; 
+        styleElem.setAttribute("id", nameStyle);
+        styleElem.rel = 'stylesheet';
+        styleElem.href = styleURL;
+        document.documentElement.appendChild(styleElem);    
+    }
+    //!! 2. Load stylesheet css file !!//
+
+    // 3. Toggle ClassName on ID element
+    function toggleClassOnID(elem_id, class_to_toggle){
+        var helper = document.getElementById(elem_id);
+        if (helper.innerHTML.length > 0) {
+            helper.classList.toggle(class_to_toggle);
+            debugLogEvent("Class ["+class_to_toggle+"] toggled find elem.id : "+elem_id+" ;")
+        } else {
+            debugLogEvent("Can't find elem.id : "+elem_id+" ;")
+        }
+    }
+    //!! 3. Toggle ClassName on ID element !!//
+
+    // 4. Close Modal
+    function closeModal(elem){
+        elem.closest('.modalContainer').remove();
+    }
+    //!!
+
+    // 5. Generating Random Number 
+    function generateRandomNumber(){
+        return Math.floor((Math.random() * 1000000000) + 1);
+    }
+    //!! 
+
+
+//!!  END 999. HELPERS FUNCTION SECTION END !!//
+
+
+// Start app when doc ready
+(function() {
+
+    startPageBuilder();
+ 
+ })();
+ //!! Start app when doc ready

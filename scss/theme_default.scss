@@ -1,0 +1,79 @@
+@import 'helpers/default_colors.scss';
+//@import 'helpers/color_apply.scss';
+
+body {
+    background: $mainDarkBackground;
+    color: $mainLightColor;
+    
+    input {
+        background: $mainDarkColor;
+        color: $mainLightColor;
+    }
+
+    button {
+        background: $mainColor;
+        color: $mainLightColor;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    #applicationContainer {
+        #appHeader {
+            background: $mainDarkBackground_1;
+        }
+        
+        #appContent {
+            background: $mainDarkBackground;
+        }
+        
+        #appFooter {
+            background: $mainDarkBackground_1;
+        }
+        
+        #logoArea {
+            background: $mainDarkBackground_3;
+        }
+        
+        #addNewSection {
+            background: $mainColor;
+            
+            button {
+                background: transparent;
+
+            }
+        }
+        
+        .sectionContainer {
+            box-shadow: 0 0 0 $mainDarkColor;
+            
+            .sectionInnerContent {
+                background: $mainLightColor_1;
+            }
+            
+            >.headerInfo {
+                background: $mainColor;
+            }
+
+            .sectionInnerFooter {
+
+                .addNewRow {
+                    
+                }
+            }
+        }
+        
+        .sectionContainer.rowContainer {
+            box-shadow: 0 0 0 $mainDarkColor;
+            
+            .sectionInnerContent {
+                background: $mainLightColorAlt_1;
+            }
+            
+            >.headerInfo {
+                background: $mainColorAlt;
+            }
+        }
+    }
+}

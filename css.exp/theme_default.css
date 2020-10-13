@@ -1,0 +1,35 @@
+body {
+  background: #555555;
+  color: #f7fcff; }
+  body input {
+    background: #011d2a;
+    color: #f7fcff; }
+  body button {
+    background: #03a9f4;
+    color: #f7fcff; }
+  body button:focus {
+    outline: none; }
+  body #applicationContainer #appHeader {
+    background: #3b3b3b; }
+  body #applicationContainer #appContent {
+    background: #555555; }
+  body #applicationContainer #appFooter {
+    background: #3b3b3b; }
+  body #applicationContainer #logoArea {
+    background: #080808; }
+  body #applicationContainer #addNewSection {
+    background: #03a9f4; }
+    body #applicationContainer #addNewSection button {
+      background: transparent; }
+  body #applicationContainer .sectionContainer {
+    box-shadow: 0 0 0 #011d2a; }
+    body #applicationContainer .sectionContainer .sectionInnerContent {
+      background: #c5ecfe; }
+    body #applicationContainer .sectionContainer > .headerInfo {
+      background: #03a9f4; }
+  body #applicationContainer .sectionContainer.rowContainer {
+    box-shadow: 0 0 0 #011d2a; }
+    body #applicationContainer .sectionContainer.rowContainer .sectionInnerContent {
+      background: #cec5fe; }
+    body #applicationContainer .sectionContainer.rowContainer > .headerInfo {
+      background: #8103f4; }

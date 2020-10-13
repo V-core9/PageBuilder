@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: monospace; }
+
+#debugContainer {
+  position: fixed;
+  z-index: 999999;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  min-height: 25vh;
+  width: 100%;
+  top: 100%;
+  transition: 0.25s ease all; }
+  #debugContainer .debugToggleButton {
+    position: fixed;
+    bottom: 0;
+    right: 10px; }
+
+#debugContainerHeader {
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; }
+
+#debugContainerContent {
+  flex: 1;
+  display: flex;
+  flex-direction: row; }
+
+#debugContainerFooter {
+  display: flex;
+  min-height: 2vh;
+  background: rgba(0, 0, 0, 0.5); }
+
+#debugContainer.showDebugContainer {
+  bottom: 0;
+  top: unset; }
+  #debugContainer.showDebugContainer .debugToggleButton {
+    position: relative;
+    bottom: unset;
+    right: unset; }
+
+div#debugEventLog {
+  flex: 1;
+  border: 1px solid white; }
+
+div#debugJSONprint {
+  flex: 1;
+  border: 1px solid white; }

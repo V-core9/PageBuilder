@@ -19,6 +19,7 @@
 // 1. Application Object set 
 var appObject = {
     'debug' : true,
+    'viewMode'  : 'bloxBuilder',
 };
 //!! 1. Application Object set !!//
 
@@ -49,7 +50,10 @@ function createApplicationContainer(){
 
     document.documentElement.innerHTML += appContainerHTML();
     
-    loadCssStyle('application-css', 'css/application.css'); 
+    loadCssStyle('application-css', 'css/application.min.css'); 
+    loadCssStyle('inputs-css', 'css/inputs.min.css'); 
+    loadCssStyle('modal-css', 'css/modal.min.css'); 
+    loadCssStyle('theme_default-css', 'css/theme_default.min.css'); 
 }
 //!! 3. Create App Container !!//
 
@@ -66,7 +70,7 @@ function appContainerHTML(){
                         <p><{:|YEA|:}></p>
                     </div>
                     <div id="navigationArea">
-                        <button onclick="createNewPageFile()">New Page</button>
+                        <button onclick="createNewPageFileModal()">New Page</button>
                     </div>
                 </div>
                 <div id="appContent">
@@ -77,25 +81,86 @@ function appContainerHTML(){
                     </div>
                 </div>
                 <div id="appFooter">
-                    
+                    <div id="tabsFooter">
+                    </div>
+                    <div id="devCredits">
+                        <p>MikiYEAAA</p>
+                    </div>
                 </div>
             </div>`
 }
 //!! 4. Application Container HTML !!//
 
 // 5. Create New Page File
-function createNewPageFile(){
+function createNewPageFile(elem){
 
     if (appObject.debugConfirmed){
         debugLogEvent('Inside Func: createNewPageFile()');
     }
 
-    appObject.pageFiles.push({'name': 'someDemoName','slug':'demoSlug','seo_title':'demoSeoTitle', 'pageSections': []});
+    var pageNameHelper = document.getElementById('newFileName-val').value;
+
+    if ((pageNameHelper == null) || (pageNameHelper == "")){
+        if (appObject.debugConfirmed){
+            debugLogEvent('Generating unique name for new PageFile');
+        }
+        pageNameHelper = 'page-'+generateRandomNumber();
+    }
+
+    var x;
+    for (x in appObject.pageFiles){
+        if (appObject.pageFiles[x].name == pageNameHelper){
+            debugLogEvent('PageFile already exists!', 'warning');
+            pageNameHelper += '-'+generateRandomNumber();
+        }
+    }
+
+    appObject.pageFiles.push({'name': pageNameHelper,'slug': pageNameHelper,'seo_title': pageNameHelper, 'pageSections': []});
 
     appObject.fileSelected = (appObject.pageFiles.length - 1);
 
+    closeModal(elem);
+    drawPageViewContainer();
+    updateFooterTabs();
 }
 //!! 5. Create New Page File  !!//
+
+// 
+function createNewPageFileModal(){
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: createNewPageFileModal()');
+    }
+
+    if (document.getElementById('newPageFileModal') != null){
+        document.getElementById('newPageFileModal').remove();
+        
+        if (appObject.debugConfirmed){
+            debugLogEvent('Removing Existing newPageFileModal');
+        }
+    }
+    
+    if (appObject.debugConfirmed){
+        debugLogEvent('Creating newPageFileModal');
+    }
+
+    document.getElementById('applicationContainer').innerHTML +=    `<div id='newPageFileModal' class="modalContainer">
+                                                                        <div class="modalInner">
+                                                                            <div class="modalHeader">
+                                                                                <h4 class="modalTitle">New Page</h4>
+                                                                                <button onclick="closeModal(this)">X</button>
+                                                                            </div>
+                                                                            <div class="modalContent">
+                                                                                `+ printSingleOption('text','newFileName') +`
+                                                                            </div>
+                                                                            <div class="modalFooter">
+                                                                                <button onclick="createNewPageFile(this)">Create</button>
+                                                                                <button onclick="closeModal(this)">Cancel</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+}
+//!!
 
 // 6. Add new section function 
 function addNewSection(){
@@ -106,14 +171,23 @@ function addNewSection(){
 
     appObject.pageFiles[appObject.fileSelected].pageSections.push({'name': 'sectionDemoName','background-color':'#444444', 'sectionRows': []});
 
-    drawBloxBuilderView();
+    drawPageViewContainer();
 
 }
 //!! 6. Add new section function !!//
 
+function drawPageViewContainer(){
+    if (appObject.viewMode == 'bloxBuilder') {
+        debugLogEvent('Drawing PageViewContainer!');
+        drawBloxBuilderView();
+    } else {
+        debugLogEvent('Selected View Mode still not supported!', 'warning');
+        appObject.viewMode = 'bloxBuilder';
+        drawPageViewContainer();
+    }
+}
 
-
-//
+// drawBloxBuilderView
 function drawBloxBuilderView(){
     if (document.getElementById('bloxBuilderView') == null){
         document.getElementById('appContent').innerHTML += "<div id='bloxBuilderView'></div>";
@@ -166,14 +240,40 @@ function drawBloxBuilderView(){
     }
      
 }
+//!!
 
-//
+// Add new row to section
 function addNewRowToSection(x){
     appObject.pageFiles[appObject.fileSelected].pageSections[x].sectionRows.push({"name": "demoRowName", "structure": "full", 'columns': []})
     
-    drawBloxBuilderView();
+    drawPageViewContainer();
 }
+//!!
 
+//
+function printSingleOption(type, name){
+    if (type == 'text'){
+        return  `<div class="singleOption" id="`+name+`">
+                    <p>Name</p>
+                    <div class="singleTextInput">
+                        <input type='text' id='`+name+`-val' oninput='if (this.value != "") { document.getElementById("`+name+`-button").style.opacity = "1"; } else { document.getElementById("`+name+`-button").style.opacity = "0"; }'>
+                        <button id='`+name+`-button' onclick='document.getElementById("`+name+`-val").value = ""; this.style.opacity = "0";' style='opacity: 0;'>X</button>
+                    </div>
+                </div>`
+    }
+}
+//!!
+
+
+// Footer Files Tabs
+function updateFooterTabs(){
+    document.getElementById('tabsFooter').innerHTML = "";
+    var x;
+    for (x in appObject.pageFiles){
+        document.getElementById('tabsFooter').innerHTML += `<button>`+appObject.pageFiles[x].name+`</button>`;
+    }
+}
+//!!
 
 //  999. HELPERS FUNCTION SECTION
 // Minor collection of helper functions
@@ -217,6 +317,18 @@ function addNewRowToSection(x){
         }
     }
     //!! 3. Toggle ClassName on ID element !!//
+
+    // 4. Close Modal
+    function closeModal(elem){
+        elem.closest('.modalContainer').remove();
+    }
+    //!!
+
+    // 5. Generating Random Number 
+    function generateRandomNumber(){
+        return Math.floor((Math.random() * 1000000000) + 1);
+    }
+    //!! 
 
 
 //!!  END 999. HELPERS FUNCTION SECTION END !!//

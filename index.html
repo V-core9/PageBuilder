@@ -1,119 +1,176 @@
 <link rel="stylesheet" href="css/main.css">
 
-<div class='rowContainer'>
-  <div class="headerInfo">
-     <div class='title'>
-       <h4>Row Name: Demo</h4>
-    </div>
-    <div class='options'>
-      <button>X</button>
-    </div>
-  </div>
-  <div class="innerRow">
-    <div class='columnContainer' id="div1" >
-      <div class="headerInfo">
-        <div class='title'>
-          <h4>Column Name: DemoColumn2</h4>
-        </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
+<div class='pageContainer'>
+  <div class="sectionContainer">
+    <div class="headerInfo">
+      <div class='title'>
+        <h4>Row Name: Demo</h4>
       </div>
-      <div class='innerColumnContent'  id="div1Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
-        <div class='draggableElem basicImageElement'  id="drag1" draggable="true" ondragstart="dragElem(event)" >
-          <img class='innerPageElem' src="https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png">
-        </div>
+      <div class='options'>
+        <button onclick='console.log("openSectionOptions");'>O</button>
+        <button>X</button>
       </div>
     </div>
-    <div class='columnContainer' id="div2" >
-      <div class="headerInfo">
-        <div class='title'>
-          <h4>Column Name: DemoColumn2</h4>
+    <div class="sectionInnerContent">
+      <div class='rowContainer'>
+        <div class="headerInfo">
+          <div class='title'>
+            <h4>Row Name: Demo</h4>
+          </div>
+          <div class='options'>
+            <button onclick='console.log("openRowOptions");'>O</button>
+            <button>X</button>
+          </div>
         </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
-      </div>
-      <div class='innerColumnContent'  id="div2Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
+        <div class="innerRowContent" ondrop="dropColumn(event)" ondragenter="allowDropColumn(event)" ondragleave="allowLeaveColumn(event)"  ondragover="allowDropColumn(event)">
+          <div class='columnContainer' id="div1" draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent'  id="div1Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
+              <div class='draggableElem basicImageElement'  id="drag1" draggable="true" ondragstart="dragElem(event)" >
+                <img class='innerPageElem' src="https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png">
+              </div>
+            </div>
+          </div>
+          <div class='columnContainer' id="div2"  draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent'  id="div2Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
 
-      </div>
-    </div>
-    <div class='columnContainer' id="div3">
-      <div class="headerInfo">
-        <div class='title'>
-          <h4>Column Name: DemoColumn2</h4>
+            </div>
+          </div>
+          <div class='columnContainer' id="div3"  draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent'  id="div3Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)"  ondragover="allowDropElem(event)">
+              
+            </div>
+          </div>
         </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
       </div>
-      <div class='innerColumnContent'  id="div3Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)"  ondragover="allowDropElem(event)">
-        
+
+
+
+      <div class='rowContainer'>
+        <div class="headerInfo">
+          <div class='title'>
+            <h4>Row Name: Demo</h4>
+          </div>
+          <div class='options'>
+            <button onclick='console.log("openRowOptions");'>O</button>
+            <button>X</button>
+          </div>
+        </div>
+        <div class="innerRowContent"  ondrop="dropColumn(event)" ondragenter="allowDropColumn(event)" ondragleave="allowLeaveColumn(event)"  ondragover="allowDropColumn(event)">
+          <div class='columnContainer'  id="div12"   draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn1</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent'  id="div12Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
+              <div class='draggableElem basicImageElement'  id="drag11" draggable="true" ondragstart="dragElem(event)" >
+                <img src="https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg">
+              </div>
+            </div>
+          </div>
+          <div class='columnContainer'  id="div22"   draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent' id="div22Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
+              
+            </div>
+          </div>
+          <div class='columnContainer'  id="div224"   draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent' id="div224Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
+              
+            </div>
+          </div>
+          <div class='columnContainer'  id="div32"   draggable="true" ondragstart="dragColumn(event)">
+            <div class="headerInfo">
+              <div class='title'>
+                <h4>Column Name: DemoColumn2</h4>
+              </div>
+              <div class='options'>
+                <button onclick='console.log("openColumnOptions");'>O</button>
+                <button>X</button>
+              </div>
+            </div>
+            <div class='innerColumnContent'  id="div32Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)"  ondragover="allowDropElem(event)">
+              <div class='draggableElem basicHeroElement'  id="drag13" draggable="true" ondragstart="dragElem(event)" >
+                <h5>Some title information</h5>
+                <p>YEa more info we can put here....more and more and more we are moving away from truth</p>
+                <button>Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-
-
-<div class='rowContainer'>
+<div class="sidebar" id='sidebarContainer'>
   <div class="headerInfo">
-     <div class='title'>
-       <h4>Row Name: Demo</h4>
+    <div class='title'>
+      <h4>Column Name: DemoColumn2</h4>
     </div>
     <div class='options'>
-      <button>X</button>
+      <button onclick='console.log("openColumnOptions");'>O</button>
+      <button class='toggleSidebar' onclick="document.getElementById('sidebarContainer').classList.toggle('shown');">X</button>
     </div>
   </div>
-  <div class="innerRow">
-    <div class='columnContainer'  id="div12">
-      <div class="headerInfo">
-         <div class='title'>
-           <h4>Column Name: DemoColumn1</h4>
-        </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
-      </div>
-      <div class='innerColumnContent'  id="div12Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
-        <div class='draggableElem basicImageElement'  id="drag11" draggable="true" ondragstart="dragElem(event)" >
-          <img src="https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg">
-        </div>
-      </div>
+  <div class="modulesList">
+    <div class='draggableElem basicHeroElement'  id="drag133" draggable="true" ondragstart="dragElemSidebar(event)" >
+      <h5>Some title information</h5>
+      <p>YEa more info we can put here....more and more and more we are moving away from truth</p>
+      <button>Send</button>
     </div>
-    <div class='columnContainer'  id="div22">
-      <div class="headerInfo">
-        <div class='title'>
-          <h4>Column Name: DemoColumn2</h4>
-        </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
-      </div>
-      <div class='innerColumnContent' id="div22Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)" ondragover="allowDropElem(event)">
-        
-      </div>
-    </div>
-    <div class='columnContainer'  id="div32">
-      <div class="headerInfo">
-        <div class='title'>
-          <h4>Column Name: DemoColumn2</h4>
-        </div>
-        <div class='options'>
-          <button>X</button>
-        </div>
-      </div>
-      <div class='innerColumnContent'  id="div32Inner" ondrop="dropElem(event)" ondragenter="allowDropElem(event)" ondragleave="allowLeaveElem(event)"  ondragover="allowDropElem(event)">
-        <div class='draggableElem basicHeroElement'  id="drag13" draggable="true" ondragstart="dragElem(event)" >
-          <h5>Some title information</h5>
-          <p>YEa more info we can put here....more and more and more we are moving away from truth</p>
-          <button>Send</button>
-        </div>
-        
-      </div>
+    <div class='draggableElem basicImageElement'  id="drag113" draggable="true" ondragstart="dragElemSidebar(event)" >
+      <img src="https://www.imgworlds.com/wp-content/uploads/2015/12/18-CONTACTUS-HEADER.jpg">
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript" src="js/drag_and_drop.js" ></script>

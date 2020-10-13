@@ -113,7 +113,7 @@ function addNewSection(){
 
 
 
-//
+// drawBloxBuilderView
 function drawBloxBuilderView(){
     if (document.getElementById('bloxBuilderView') == null){
         document.getElementById('appContent').innerHTML += "<div id='bloxBuilderView'></div>";
@@ -166,13 +166,15 @@ function drawBloxBuilderView(){
     }
      
 }
+//!!
 
-//
+// Add new row to section
 function addNewRowToSection(x){
     appObject.pageFiles[appObject.fileSelected].pageSections[x].sectionRows.push({"name": "demoRowName", "structure": "full", 'columns': []})
     
     drawBloxBuilderView();
 }
+//!!
 
 
 //  999. HELPERS FUNCTION SECTION

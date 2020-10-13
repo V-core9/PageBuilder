@@ -228,13 +228,30 @@ function drawBloxBuilderView(){
                                                                                                     <button>X</button>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="sectionInnerContent">
+                                                                                            <div class="sectionInnerContent rowColumns">
                                                                                             
                                                                                             </div>
                                                                                             <div class="sectionInnerFooter">
 
                                                                                             </div>
                                                                                         </div>`;
+            
+            var helperString = currentFile.pageSections[x].sectionRows[i].type.split("_");
+
+            console.log('yea');
+
+            var n = '';
+
+            console.log('yea2');
+
+            for (n = 0; n < helperString.length; n++){
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn'>  </div>`;
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.display = 'grid';
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.gridTemplateColumns = 'calc( '+helperString.join(' * 100%) calc( ')+' * 100%)';
+            };
+
+            console.log(helperString.length + '  ::  '+ helperString);
+
         }
 
     }
@@ -275,7 +292,11 @@ function addNewRowToSectionModal(x){
                                                                                     <div class="options">
                                                                                         <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
                                                                                         <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/3_1/3_1/3'>33% : 33% : 33%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/4_1/4'>25% :25% : 25% : 25%</button>
                                                                                         <button onclick='addNewRowToSection(this)' value='1/2_1/4_1/4'>50% : 25% : 25%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/2_1/4'>25% : 50% : 25%</button>
+                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/2'>25% : 25% : 50%</button>
                                                                                     </div>
                                                                                 </div>
                                                                                 <input id='sectionIdNum' type='number' value='`+x+`' hidden>

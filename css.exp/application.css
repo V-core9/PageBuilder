@@ -83,3 +83,8 @@ div#addNewSection {
     border: none;
     left: calc(50% - 50px);
     bottom: -1em; }
+
+.singleColumn {
+  border: 1px solid;
+  margin: 15px;
+  min-height: 50px; }

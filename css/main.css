@@ -1,12 +1,17 @@
 .rowContainer {
     display: flex;
     flex-direction: column;
-    border: 2px solid green;
     color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px;
+    opacity: 0.9;
+    transition: 0.25s ease all;
+    box-shadow: 0 0 0 black;
   }
   
   .rowContainer .headerInfo {
-    background: green;
+    background: #673AB7;
   }
   .headerInfo {
     padding: 10px;
@@ -19,24 +24,30 @@
     margin: 0;
   }
   
-  .rowContainer .innerRow {
+  .rowContainer .innerRowContent {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    background: #B39DDB;
+    padding: 0;
+    min-height: 80px;
   }
   
   .columnContainer {
     width: 350px;
-    border: 2px solid #aaaaaa;
     flex: 1;
-    margin: 0 5px;
     min-height: 50px;
     display: flex;
     flex-direction: column;
+    margin: 15px;
+    overflow: hidden;
+    border-radius: 20px;
+    transition: 0.25s ease all;
+    box-shadow: 0 0 0 black;
+    opacity: 0.9;
   }
 
   .columnContainer .headerInfo {
-      background: blue;
+      background: #E91E63;
   }
 
   .columnContainer .innerColumnContent {
@@ -45,6 +56,7 @@
         display: flex;
         flex-direction: column;
         min-height: 50px;
+        background: whitesmoke;
     }
   
   .innerPageElem {
@@ -61,6 +73,13 @@
 
   .draggableElem {
     display: flex;
+    margin: 15px;
+    border: 1px solid transparent;
+    cursor: grab;
+}
+
+.draggableElem:hover {
+  border-color: red;
 }
 
 .basicImageElement img {
@@ -115,4 +134,86 @@ button:active {
 
 button:focus {
     outline: none;
+}
+
+
+.sectionContainer {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px;
+    box-shadow: 0 0 0 black;
+    transition: 0.25s ease all;
+    opacity: 0.9;
+}
+
+.sectionContainer .sectionInnerContent {
+    padding: 0;
+    background: #B3E5FC;
+}
+
+.sectionContainer > .headerInfo {
+    background: #2196F3;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.sectionContainer:hover {
+    box-shadow: 0 5px 10px black;
+    opacity: 1;
+}
+
+.rowContainer:hover {
+    box-shadow: 0 5px 10px black;
+    opacity: 1;
+}
+
+.columnContainer:hover {
+    box-shadow: 0 5px 10px black;
+    opacity: 1;
+}
+
+
+div#sidebarContainer {
+    position: absolute;
+    display: block;
+    height: 100%;
+    top: 0;
+    width: 320px;
+    padding: 10px;
+    background: white;
+    border-right: 2px solid gray;
+    left: -350px;
+    transition: 0.25s ease all;
+}
+
+div#sidebarContaineR.shown {
+    left: 0;
+}
+
+button.toggleSidebar {
+    position: absolute;
+    right: -10em;
+    background: orange;
+    border: 2px solid gray;
+    border-radius: 0 20px 20px 0;
+}
+
+button.toggleSidebar:after {content: "SHOW SIDEBAR";}
+
+.shown button.toggleSidebar {
+    position: relative;
+    right: auto;
+    background: #2196f3;
+    border: none;
+    border-radius: 20px;
+}
+
+.shown button.toggleSidebar:after {
+    content: none;
 }

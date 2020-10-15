@@ -1,0 +1,5 @@
+[1015/065509.411:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1015/090242.955:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\slavk\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\dfdc2803-67c3-4df2-87ad-cdd77f742e5b: The system cannot find the path specified. (0x3)
+[1015/090256.913:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\slavk\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\5025d73b-afbd-4384-b593-57273ea2899a: The system cannot find the path specified. (0x3)
+[1015/090328.773:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\slavk\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\32f5e0b1-a23c-4c60-b482-81c266e340bd: The system cannot find the path specified. (0x3)
+[1015/090444.285:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\slavk\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\548667f8-c228-48b4-a039-8c399ed04bb4: The system cannot find the path specified. (0x3)

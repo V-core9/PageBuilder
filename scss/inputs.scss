@@ -1,3 +1,4 @@
+@import 'helpers/default_colors.scss';
 
 input {
     padding: 0.25em 0.5em;
@@ -8,5 +9,25 @@ button {
     padding: 0.25em 0.5em;
     border: none;
     border-radius: 1em;
-    transition: 0.25s ease all;
+    transition: 0.3s ease all;
+    box-shadow: 0 0 0 $mainDarkBackground_3;
+    cursor: pointer;    
+    background: $mainColor;
+
+
+    &:hover {
+        transition: 0.2s ease all;
+        box-shadow: 0 5px 15px $mainDarkBackground_3;
+        background: $mainDarkColor_2;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        transition: 0.05s ease all;
+        box-shadow: 0 0 0 $mainDarkBackground_3;
+        background: $mainDarkColor;
+    }
 }

@@ -6,4 +6,17 @@ button {
   padding: 0.25em 0.5em;
   border: none;
   border-radius: 1em;
-  transition: 0.25s ease all; }
+  transition: 0.3s ease all;
+  box-shadow: 0 0 0 #080808;
+  cursor: pointer;
+  background: #03a9f4; }
+  button:hover {
+    transition: 0.2s ease all;
+    box-shadow: 0 5px 15px #080808;
+    background: #02638f; }
+  button:focus {
+    outline: none; }
+  button:active {
+    transition: 0.05s ease all;
+    box-shadow: 0 0 0 #080808;
+    background: #011d2a; }

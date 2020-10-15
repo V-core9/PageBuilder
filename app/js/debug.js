@@ -16,8 +16,9 @@ function debugLogEvent(message, type = null){
     }
 }
 
-function debugAppHtml(){
-    return `<div id="debugContainer" class="debugContainer">
+function debugAppHtml(){ 
+    return `<div id="debugContainer" class="debugContainer" style='max-height: 50vh;'>
+                <div class="debugHeightChange"></div>
                 <div id="debugContainerHeader">
                     <div class="titleDebug">
                         <h5>Debug Console</h5>

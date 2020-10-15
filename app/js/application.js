@@ -302,7 +302,7 @@ function addNewRowToSectionModal(sectionID){
                                                                                 
                                                                                 <div class="singleOption" >
                                                                                     <p>Name</p>
-                                                                                    <div class="options">
+                                                                                    <div class="options rowType">
                                                                                         <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
                                                                                         <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
                                                                                         <button onclick='addNewRowToSection(this)' value='1/3_1/3_1/3'>33% : 33% : 33%</button>

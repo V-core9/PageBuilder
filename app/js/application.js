@@ -199,7 +199,7 @@ function drawBloxBuilderView(){
     for (x in currentFile.pageSections) {
         //txt += currentFile.pageSections[x];
 
-        helperBuilderVar.innerHTML +=      `<div class="sectionContainer" id="section-`+x+`">
+        helperBuilderVar.innerHTML +=      `<div class="sectionContainer" id="section-`+x+`" onmouseenter='sectionHoverStart(this)' onmouseleave='sectionHoverEnd(this)' sec-id="`+ x +`">
                                                 <div class="headerInfo">
                                                     <div class="title">
                                                         <h4>Section Name: `+currentFile.pageSections[x].name+`</h4>
@@ -212,13 +212,12 @@ function drawBloxBuilderView(){
                                                 <div class="sectionInnerContent">
                                                 </div>
                                                 <div class="sectionInnerFooter">
-                                                    <button class="addNewRow" onclick="addNewRowToSectionModal(`+x+`)">Add Row</button>
                                                 </div>
                                             </div>`;
 
         for(i in currentFile.pageSections[x].sectionRows){
 
-            document.querySelector('#section-'+x+' .sectionInnerContent').innerHTML +=  `<div class="sectionContainer rowContainer" id="section-`+x+`-row-`+i+`">
+            document.querySelector('#section-'+x+' .sectionInnerContent').innerHTML +=  `<div class="sectionContainer rowContainer" id="section-`+x+`-row-`+i+`"  onmouseenter='rowHoverStart(this)' onmouseleave='rowHoverEnd(this)' row-id="`+x+`-`+i+`">
                                                                                             <div class="headerInfo">
                                                                                                 <div class="title">
                                                                                                     <h4>Row Name: `+currentFile.pageSections[x].sectionRows[i].name+`</h4>
@@ -245,7 +244,7 @@ function drawBloxBuilderView(){
             console.log('yea2');
 
             for (n = 0; n < helperString.length; n++){
-                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn'>  </div>`;
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn' column-id='`+n+`'   onmouseenter='columnHoverStart(this)' onmouseleave='columnHoverEnd(this)'>  </div>`;
                 document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.display = 'grid';
                 document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.gridTemplateColumns = 'calc( '+helperString.join(' * 100%) calc( ')+' * 100%)';
             };
@@ -336,6 +335,47 @@ function addNewRowToSection(elem){
     }
 }
 //!!
+
+
+// Hover on section, row or column
+    function sectionHoverStart(elem){
+
+        if (document.getElementById('addNewSectionAfterThis') != null){
+            document.getElementById('addNewSectionAfterThis').remove();   
+        };
+
+        if (document.getElementById('addRowToSection') != null){
+            document.getElementById('addRowToSection').remove();   
+        };
+
+        elem.innerHTML += `<button id='addNewSectionAfterThis' style='position:absolute; bottom: 0; left: calc(50% - 75px); padding: 5px 12.5px; width: 125px; display: flex;' title='Add new section'>Add Section</button>`
+        elem.innerHTML += `<button id='addRowToSection' style='position:absolute; top: calc(50% - 20px); left: calc(50% - 20px); height: 40px; width: 40px; font-size: 40px; justify-content: center; display: flex; align-items: center;' title='Add new row' onclick="addNewRowToSectionModal(this.parent.getAttribute('sec-id'))">+</button>`;
+    
+    }
+
+    function sectionHoverEnd(elem){
+        document.getElementById('addNewSectionAfterThis').remove();   
+        document.getElementById('addRowToSection').remove();   
+    }
+
+    function rowHoverStart(elem){
+        elem.innerHTML += `<button id='addNewRowAfterThis' style='position:absolute; bottom: 0; left: calc(50% - 75px); padding: 5px 12.5px; width: 125px; display: flex;'>Add Row</button>`;
+    }
+
+    function rowHoverEnd(elem){
+        document.getElementById('addNewRowAfterThis').remove();        
+    }
+
+    function columnHoverStart(elem){
+        elem.innerHTML += `<button id='addNewElementToColumnButton' style='position:absolute; bottom: 0; left: calc(50% - 75px); padding: 5px 12.5px; width: 125px; display: flex;'>Add Element</button>`;
+    }
+
+    function columnHoverEnd(elem){
+        document.getElementById('addNewElementToColumnButton').remove();
+    }
+// Hover on section, row or column
+
+
 
 //
 function printSingleOption(type, name){

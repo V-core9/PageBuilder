@@ -76,9 +76,7 @@ function appContainerHTML(){
                 <div id="appContent">
 
 
-                    <div id="addNewSection">
-                        <button onclick="addNewSection()">Add Section</button>
-                    </div>
+                    
                 </div>
                 <div id="appFooter">
                     <div id="tabsFooter">
@@ -163,16 +161,32 @@ function createNewPageFileModal(){
 //!!
 
 // 6. Add new section function 
-function addNewSection(){
+function addNewSection(x = null){
 
     if (appObject.debugConfirmed){
         debugLogEvent('Inside Func: addNewSection()');
     }
 
-    appObject.pageFiles[appObject.fileSelected].pageSections.push({'name': 'sectionDemoName','background-color':'#444444', 'sectionRows': []});
+    var currentFileSections = appObject.pageFiles[appObject.fileSelected].pageSections;
+
+    if (appObject.debugConfirmed){
+        debugLogEvent('Inside Func: addNewSection() => currentFileSections.length: '+ currentFileSections.length);
+    }
+
+    if(( x == null) || (x >= currentFileSections.length - 1)){
+        if (appObject.debugConfirmed){
+            debugLogEvent('Inside Func: addNewSection() => X: '+ x +` > currentFileSections.length `+ currentFileSections.length);
+        }
+        appObject.pageFiles[appObject.fileSelected].pageSections.push({'name': 'section'+generateRandomNumber(),'background-color':'#444444', 'sectionRows': []});
+    } else {
+        appObject.pageFiles[appObject.fileSelected].pageSections.splice(x+1, 0, {'name': 'section'+generateRandomNumber(),'background-color':'#444444', 'sectionRows': []});
+    }
+
+
+    clearPageBuilderHovering();
 
     drawPageViewContainer();
-
+    
 }
 //!! 6. Add new section function !!//
 
@@ -190,7 +204,7 @@ function drawPageViewContainer(){
 // drawBloxBuilderView
 function drawBloxBuilderView(){
     if (document.getElementById('bloxBuilderView') == null){
-        document.getElementById('appContent').innerHTML += "<div id='bloxBuilderView'></div>";
+        document.getElementById('appContent').innerHTML += "<div id='bloxBuilderView'  onmouseenter='pageHoverStart(this)' onmouseleave='pageHoverEnd()' style='min-height: 100%; flex: 1;'></div>";
     }
     var helperBuilderVar = document.getElementById('bloxBuilderView');
     helperBuilderVar.innerHTML = "";
@@ -199,7 +213,7 @@ function drawBloxBuilderView(){
     for (x in currentFile.pageSections) {
         //txt += currentFile.pageSections[x];
 
-        helperBuilderVar.innerHTML +=      `<div class="sectionContainer" id="section-`+x+`">
+        helperBuilderVar.innerHTML +=      `<div class="sectionContainer" id="section-`+x+`" onmouseenter="sectionHoverStart(this)" onmouseleave="sectionHoverEnd()" sec-id="`+ x +`">
                                                 <div class="headerInfo">
                                                     <div class="title">
                                                         <h4>Section Name: `+currentFile.pageSections[x].name+`</h4>
@@ -212,13 +226,12 @@ function drawBloxBuilderView(){
                                                 <div class="sectionInnerContent">
                                                 </div>
                                                 <div class="sectionInnerFooter">
-                                                    <button class="addNewRow" onclick="addNewRowToSectionModal(`+x+`)">Add Row</button>
                                                 </div>
                                             </div>`;
 
         for(i in currentFile.pageSections[x].sectionRows){
 
-            document.querySelector('#section-'+x+' .sectionInnerContent').innerHTML +=  `<div class="sectionContainer rowContainer" id="section-`+x+`-row-`+i+`">
+            document.querySelector('#section-'+x+' .sectionInnerContent').innerHTML +=  `<div class="sectionContainer rowContainer" id="section-`+x+`-row-`+i+`"  onmouseenter='rowHoverStart(this)' onmouseleave='rowHoverEnd(this)' row-id="`+ x +`&`+ i +`">
                                                                                             <div class="headerInfo">
                                                                                                 <div class="title">
                                                                                                     <h4>Row Name: `+currentFile.pageSections[x].sectionRows[i].name+`</h4>
@@ -245,7 +258,7 @@ function drawBloxBuilderView(){
             console.log('yea2');
 
             for (n = 0; n < helperString.length; n++){
-                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn'>  </div>`;
+                document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').innerHTML += `<div class='singleColumn' column-id='`+n+`'   onmouseenter='columnHoverStart(this)' onmouseleave='columnHoverEnd(this)'>  </div>`;
                 document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.display = 'grid';
                 document.getElementById('section-'+x+'-row-'+i).querySelector('.sectionInnerContent .rowColumns').style.gridTemplateColumns = 'calc( '+helperString.join(' * 100%) calc( ')+' * 100%)';
             };
@@ -260,7 +273,7 @@ function drawBloxBuilderView(){
 //!!
 
 // Modal ew row  to section
-function addNewRowToSectionModal(x){
+function addNewRowToSectionModal(sectionID){
     
     if (appObject.debugConfirmed){
         debugLogEvent('Inside Func: addNewRowToSectionModal()');
@@ -299,7 +312,7 @@ function addNewRowToSectionModal(x){
                                                                                         <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/2'>25% : 25% : 50%</button>
                                                                                     </div>
                                                                                 </div>
-                                                                                <input id='sectionIdNum' type='number' value='`+x+`' hidden>
+                                                                                <input id='sectionIdNum' type='text' value='`+sectionID+`' hidden>
                                                                             </div>
                                                                             <div class="modalFooter">
                                                                                 <button onclick="closeModal(this)">Cancel</button>
@@ -316,26 +329,177 @@ function addNewRowToSection(elem){
         debugLogEvent('Creating addNewRowToSection()');
     }
 
-    var helperID = document.getElementById('sectionIdNum').value;
-    
-    if (helperID.value != ""){
 
-        appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows.push({"name": "demoRowName", "type": elem.value, 'columns': []})
-    
-        drawPageViewContainer();
+    var helperID = document.getElementById('sectionIdNum').value.split('&')[0];
+    var helperIDrow = document.getElementById('sectionIdNum').value.split('&')[1];
+    var helperName = document.getElementById('newRowName-val').value;
+    var currentFile = appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows;
 
-        closeModal(document.querySelector('#newRowModal .modalInner'));
+    if (helperName == ''){
+        helperName = 'row-' + generateRandomNumber();
+    }
+    
+    if (helperIDrow == (currentFile.length - 1)){
+
+        appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows.push({"name": helperName, "type": elem.value, 'columns': []})
 
     } else {
 
         if (appObject.debugConfirmed){
-            debugLogEvent('Missing Data()');
+            debugLogEvent('Something Wrong???()');
         }
+
+        appObject.pageFiles[appObject.fileSelected].pageSections[helperID].sectionRows.splice((helperIDrow +1), 0, {"name": helperName, "type": elem.value, 'columns': []});
         
-        closeModal(document.querySelector('#newRowModal .modalInner'));
     }
+    
+    drawPageViewContainer();
+    clearPageBuilderHovering();
+    closeModal(document.querySelector('#newRowModal .modalInner'));
 }
 //!!
+
+appObject.mouseHoverPage = false;
+appObject.mouseHoverSec = false;
+appObject.mouseHoverRow = false;
+appObject.mouseHoverElem = false;
+
+function clearPageBuilderHovering(){
+    appObject.mouseHoverPage = false;
+    appObject.mouseHoverSec = false;
+    appObject.mouseHoverRow = false;
+    appObject.mouseHoverElem = false;
+}
+
+// Hover on section, row or column
+    function pageHoverStart(elem){
+        if(!appObject.mouseHoverPage){
+            if (appObject.debugConfirmed){
+                debugLogEvent('Func: pageHoverStart()');
+            }
+
+            if(!appObject.mouseHoverPage){
+                if (document.getElementById('bloxBuilderView').innerHTML.length == 0){
+                    if (document.getElementById('addNewSection') != null){
+                        document.getElementById('addNewSection').remove();   
+                    };
+            
+        
+                    document.getElementById('bloxBuilderView').innerHTML +=     `<div id="addNewSection">
+                                                                                    <button onclick="addNewSection(`+elem.getAttribute('sec-id')+`)">Add Section</button>
+                                                                                </div>`;
+                }
+            }
+            
+            appObject.mouseHoverPage = true;
+        }
+    }
+
+    function pageHoverEnd(){
+        if(!appObject.mouseHoverPage){
+            if (appObject.debugConfirmed){
+                debugLogEvent('Func: pageHoverEnd()');
+            }
+    
+            if (document.getElementById('addNewSection') != null){
+                document.getElementById('addNewSection').remove();   
+            };
+
+            clearPageBuilderHovering();
+        }
+
+    }
+
+    function sectionHoverStart(elem){
+        if (!appObject.mouseHoverSec){
+            if (appObject.debugConfirmed){
+                debugLogEvent('Func: sectionHoverStart()');
+            }
+            
+            if (document.getElementById('addNewSectionAfterThis') != null){
+                document.getElementById('addNewSectionAfterThis').remove();   
+            };
+    
+            if (document.getElementById('addRowToSection') != null){
+                document.getElementById('addRowToSection').remove();   
+            };
+    
+            elem.innerHTML += `<button id='addNewSectionAfterThis' style='position:absolute; top: calc(100% - 15px); left: calc(50% - 75px); height: 30px; align-items: center; padding: 0px 15px; width: 125px; display: flex;' title='Add new section' onclick="addNewSection(`+elem.getAttribute('sec-id')+`)">Add Section</button>`
+            if (elem.querySelector('.sectionInnerContent').childElementCount == 0   ){
+                elem.innerHTML += `<button id='addRowToSection' style='position:absolute; top: calc(50% - 20px); left: calc(50% - 20px); height: 40px; width: 40px; font-size: 40px; justify-content: center; display: flex; align-items: center;' title='Add new row' onclick="addNewRowToSectionModal('`+elem.getAttribute('sec-id')+`')">+</button>`;
+            }
+            
+            appObject.mouseHoverSec = true;
+        }
+    }
+
+    function sectionHoverEnd(){
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Func: sectionHoverEnd()');
+        }
+        if ( document.getElementById('addNewSectionAfterThis') != null){
+            document.getElementById('addNewSectionAfterThis').remove();   
+        }
+        if ( document.getElementById('addRowToSection') != null){
+            document.getElementById('addRowToSection').remove();   
+        }
+        
+        clearPageBuilderHovering();
+    }
+
+    function rowHoverStart(elem){
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Func: rowHoverStart()');
+        }
+
+        if (!appObject.mouseHoverRow) {
+            elem.innerHTML += `<button id='addNewRowAfterThis' style='position:absolute; top: calc(100% - 15px); height: 30px; align-items: center; left: calc(50% - 75px); padding: 5px 12.5px; width: 125px; display: flex;' onclick="addNewRowToSectionModal('`+ elem.getAttribute('row-id') +`')">Add Row</button>`;
+            appObject.mouseHoverRow = true;
+        }
+    }
+
+    function rowHoverEnd(elem){
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Func: rowHoverEnd()');
+        }
+
+        if ( document.getElementById('addNewRowAfterThis') != null){
+            document.getElementById('addNewRowAfterThis').remove();   
+        }
+        
+        clearPageBuilderHovering();
+    }
+
+    function columnHoverStart(elem){
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Func: columnHoverStart()');
+        }
+
+        if (!appObject.mouseHoverElem) {
+            elem.innerHTML += `<button id='addNewElementToColumnButton' style='position:absolute; top: calc(100% - 15px); height: 30px; align-items: center; left: calc(50% - 75px); padding: 5px 12.5px; width: 125px; display: flex;'>Add Element</button>`;
+            appObject.mouseHoverElem = true;
+        }
+    }
+
+    function columnHoverEnd(elem){
+
+        if (appObject.debugConfirmed){
+            debugLogEvent('Func: columnHoverEnd()');
+        }
+
+        if ( document.getElementById('addNewElementToColumnButton') != null){
+            document.getElementById('addNewElementToColumnButton').remove();   
+        }
+
+        clearPageBuilderHovering();
+    }
+// Hover on section, row or column
+
+
 
 //
 function printSingleOption(type, name){

@@ -15,17 +15,24 @@ div#appHeader {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+    height: 2.5em;
 }
 div#appContent {
 	flex: 1;
 	position: relative;
+	max-height: calc(100% - 5em);
+	display: flex;
 }
 div#appFooter {
 	min-height: 2em;
 	display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+	align-items: center;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+    height: 2.5em;
 }
 div#logoArea {
 	min-width: 300px;
@@ -35,7 +42,7 @@ div#logoArea {
 }
 div#addNewSection {
 	position: absolute;
-	bottom: 1em;
+	top: calc(50% - 1.5em);
 	width: 150px;
 	left: calc( 50% - 75px );
 	height: 3em;

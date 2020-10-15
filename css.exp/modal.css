@@ -30,3 +30,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 0; }
+  .singleOption .options.rowTypes {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px; }

@@ -73,6 +73,21 @@ div#addNewSection {
 		}
 	}
 }
+
+
+.con-header {
+	padding: 1em;
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0.5em 1em;
+	
+	.con-title {
+		font-size: 1.5em;
+	}
+}
+
 .sectionContainer {
 	display: flex;
 	flex-direction: column;

@@ -34,3 +34,15 @@
     display: flex;
     flex-direction: column;
     row-gap: 2px; }
+
+.singleOption.listOfElements {
+  flex-direction: column; }
+  .singleOption.listOfElements .options {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 10px; }
+    .singleOption.listOfElements .options .singleElem {
+      border: 1px solid gray; }
+      .singleOption.listOfElements .options .singleElem img {
+        width: 100%;
+        height: auto; }

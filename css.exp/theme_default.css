@@ -17,6 +17,8 @@ body {
     background: #3b3b3b; }
   body #applicationContainer #logoArea {
     background: #080808; }
+  body #applicationContainer .containerDrsSidebar {
+    background: #8103f4; }
   body #applicationContainer #addNewSection {
     background: #03a9f4; }
     body #applicationContainer #addNewSection button {
@@ -33,3 +35,12 @@ body {
       background: #cec5fe; }
     body #applicationContainer .sectionContainer.rowContainer > .headerInfo {
       background: #8103f4; }
+
+.con-footer button:nth-child(1) {
+  background: #03a9f4; }
+
+.con-footer button:nth-child(2) {
+  background: #8103f4; }
+
+.con-footer button:nth-child(3) {
+  background: #080808; }

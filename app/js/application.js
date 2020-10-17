@@ -18,7 +18,7 @@
 
 // 1. Application Object set 
 var appObject = {
-    'debug' : true,
+    'debug' : false,
     'viewMode'  : 'bloxBuilder',
 };
 //!! 1. Application Object set !!//
@@ -35,6 +35,9 @@ function startPageBuilder(){
         appObject.debugConfirmed = false;
         loadJavaScript('debug-js', 'js/debug.js', 'startDebugApp');
     }
+
+    //load Additional Scripts
+    loadJavaScript('drs_sidebar-js', 'js/drs_sidebar.js', 'startDraggableJS');
 
     // call to start creating HTML content
     createApplicationContainer();
@@ -54,6 +57,7 @@ function createApplicationContainer(){
     loadCssStyle('inputs-css', 'css/inputs.min.css'); 
     loadCssStyle('modal-css', 'css/modal.min.css'); 
     loadCssStyle('theme_default-css', 'css/theme_default.min.css'); 
+    loadCssStyle('theme_default-css', 'css/drs_sidebar.min.css'); 
 }
 //!! 3. Create App Container !!//
 
@@ -71,6 +75,7 @@ function appContainerHTML(){
                     </div>
                     <div id="navigationArea">
                         <button onclick="createNewPageFileModal()">New Page</button>
+                        <button onclick="createSidebarDragElements()">Add Elements</button>
                     </div>
                 </div>
                 <div id="appContent">
@@ -142,21 +147,15 @@ function createNewPageFileModal(){
         debugLogEvent('Creating newPageFileModal');
     }
 
-    document.getElementById('applicationContainer').innerHTML +=    `<div id='newPageFileModal' class="modalContainer">
-                                                                        <div class="modalInner">
-                                                                            <div class="modalHeader">
-                                                                                <h4 class="modalTitle">New Page</h4>
-                                                                                <button onclick="closeModal(this)">X</button>
-                                                                            </div>
-                                                                            <div class="modalContent">
-                                                                                `+ printSingleOption('text','newFileName') +`
-                                                                            </div>
-                                                                            <div class="modalFooter">
-                                                                                <button onclick="createNewPageFile(this)">Create</button>
-                                                                                <button onclick="closeModal(this)">Cancel</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>`;
+    createDrsSidebar('newPageFileModal');
+
+
+    document.querySelector('#newPageFileModal .con-header .con-title').innerHTML =    `Create New Page`;
+
+    document.querySelector('#newPageFileModal .con-body').innerHTML +=  printSingleOption('text','newFileName');
+
+    document.querySelector('#newPageFileModal .con-footer').innerHTML +=    `<button onclick="createNewPageFile(this)">Create</button>
+                                                                             <button onclick="closeModal(this)">Cancel</button>`;
 }
 //!!
 
@@ -296,34 +295,26 @@ function addNewRowToSectionModal(sectionID){
         debugLogEvent('Creating newRowModal');
     }
 
-    document.getElementById('applicationContainer').innerHTML +=    `<div id='newRowModal' class="modalContainer">
-                                                                        <div class="modalInner">
-                                                                            <div class="modalHeader">
-                                                                                <h4 class="modalTitle">New Page</h4>
-                                                                                <button onclick="closeModal(this)">X</button>
-                                                                            </div>
-                                                                            <div class="modalContent">
-                                                                                `+ printSingleOption('text','newRowName') +`
-                                                                                
-                                                                                <div class="singleOption" >
-                                                                                    <p>Name</p>
-                                                                                    <div class="options rowTypes">
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/3_1/3_1/3'>33% : 33% : 33%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/4_1/4'>25% :25% : 25% : 25%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/2_1/4_1/4'>50% : 25% : 25%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/2_1/4'>25% : 50% : 25%</button>
-                                                                                        <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/2'>25% : 25% : 50%</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <input id='sectionIdNum' type='text' value='`+sectionID+`' hidden>
-                                                                            </div>
-                                                                            <div class="modalFooter">
-                                                                                <button onclick="closeModal(this)">Cancel</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>`;
+    createDrsSidebar('newRowModal');
+
+    document.querySelector('#newRowModal .con-header .con-title').innerHTML =    `Add Row to Section`;
+
+    document.querySelector('#newRowModal .con-body').innerHTML +=  printSingleOption('text','newRowName')+`<div class="singleOption" >
+                                                                                                                <p>Name</p>
+                                                                                                                <div class="options rowTypes">
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/2_1/2'>50% : 50%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/3_1/3_1/3'>33% : 33% : 33%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/4_1/4'>25% :25% : 25% : 25%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/2_1/4_1/4'>50% : 25% : 25%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/4_1/2_1/4'>25% : 50% : 25%</button>
+                                                                                                                    <button onclick='addNewRowToSection(this)' value='1/4_1/4_1/2'>25% : 25% : 50%</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <input id='sectionIdNum' type='text' value='`+sectionID+`' hidden>`;
+
+    document.querySelector('#newRowModal .con-footer').innerHTML +=    `<button onclick="closeModal(this)">Cancel</button>`;
+
 }
 //!!
 
@@ -370,7 +361,7 @@ function addNewRowToSection(elem){
     
     drawPageViewContainer();
     clearPageBuilderHovering();
-    closeModal(document.querySelector('#newRowModal .modalInner'));
+    closeModal(document.querySelector('#newRowModal .con-body'));
 }
 //!!
 
@@ -565,6 +556,57 @@ function changeSelectedPage(elem){
     updateFooterTabs();
 }
 
+
+function createSidebarDragElements(){
+    
+    createDrsSidebar('dragElementsSidebar');
+
+    document.querySelector('#dragElementsSidebar .con-header .con-title').innerHTML =    `Drag Elements Into Page`;
+
+    document.querySelector('#dragElementsSidebar .con-body').innerHTML +=  printSingleOption('text','newRowName')+`<div class="singleOption listOfElements" >
+                                                                                                                <p>Elements</p>
+                                                                                                                <div class="options">
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                    <div class="singleElem">
+                                                                                                                        <p class="title">Demo Title</p>
+                                                                                                                        <p class="subtext">Some random text to show up filling in the space</p>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>`;
+
+    document.querySelector('#dragElementsSidebar .con-footer').innerHTML +=    `<button onclick="closeModal(this)">Cancel</button>`;
+}
 //  999. HELPERS FUNCTION SECTION
 // Minor collection of helper functions
 // Used to load rest of stuff when app started
@@ -610,7 +652,7 @@ function changeSelectedPage(elem){
 
     // 4. Close Modal
     function closeModal(elem){
-        elem.closest('.modalContainer').remove();
+        elem.closest('.containerDrsSidebar').remove();
     }
     //!!
 

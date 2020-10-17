@@ -1,0 +1,34 @@
+.containerDrsSidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  min-height: 420px;
+  position: absolute;
+  left: 2em;
+  top: 2em;
+  z-index: 999; }
+  .containerDrsSidebar .con-header {
+    display: flex;
+    height: 2em;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: space-between; }
+  .containerDrsSidebar .con-body {
+    display: flex;
+    height: 2em;
+    flex: 1;
+    flex-direction: column; }
+    .containerDrsSidebar .con-body .singleOption {
+      padding: 1em; }
+      .containerDrsSidebar .con-body .singleOption:hover {
+        background: rgba(0, 0, 0, 0.1); }
+  .containerDrsSidebar .con-footer {
+    display: flex;
+    height: 2em;
+    background: rgba(0, 0, 0, 0.5); }
+
+.draggableJS .dragHandleJS {
+  cursor: grab; }
+
+.resizeHandleJS {
+  position: absolute; }

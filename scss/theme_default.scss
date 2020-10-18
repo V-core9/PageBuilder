@@ -35,6 +35,10 @@ body {
         #logoArea {
             background: $mainDarkBackground_3;
         }
+
+        .containerDrsSidebar {
+            background: $mainColorAlt;
+        }
         
         #addNewSection {
             background: $mainColor;
@@ -76,4 +80,24 @@ body {
             }
         }
     }
+}
+
+
+
+.con-footer {
+
+	button{
+
+		&:nth-child(1){
+			background: $mainColor;
+		}
+
+		&:nth-child(2){
+			background: $mainColorAlt;
+		}
+
+		&:nth-child(3){
+			background: $mainDarkBackground_3;
+		}
+	}
 }

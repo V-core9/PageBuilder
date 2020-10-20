@@ -37,6 +37,7 @@ function startPageBuilder(){
     }
 
     //load Additional Scripts
+    loadJavaScript('adv_inputs-js', 'js/adv_inputs.js');
     loadJavaScript('drs_sidebar-js', 'js/drs_sidebar.js', 'startDraggableJS');
 
     // call to start creating HTML content
@@ -152,7 +153,7 @@ function createNewPageFileModal(){
 
     document.querySelector('#newPageFileModal .con-header .con-title').innerHTML =    `Create New Page`;
 
-    document.querySelector('#newPageFileModal .con-body').innerHTML +=  printSingleOption('text','newFileName');
+    document.querySelector('#newPageFileModal .con-body').innerHTML +=  printAdvInputByType('text','newFileName','File Name:') + printAdvInputNumber('pageRandomId','SomeValue');
 
     document.querySelector('#newPageFileModal .con-footer').innerHTML +=    `<button onclick="createNewPageFile(this)">Create</button>
                                                                              <button onclick="closeModal(this)">Cancel</button>`;
@@ -299,7 +300,7 @@ function addNewRowToSectionModal(sectionID){
 
     document.querySelector('#newRowModal .con-header .con-title').innerHTML =    `Add Row to Section`;
 
-    document.querySelector('#newRowModal .con-body').innerHTML +=  printSingleOption('text','newRowName')+`<div class="singleOption" >
+    document.querySelector('#newRowModal .con-body').innerHTML +=  printAdvInputByType('text','newRowName')+`<div class="singleOption" >
                                                                                                                 <p>Name</p>
                                                                                                                 <div class="options rowTypes">
                                                                                                                     <button onclick='addNewRowToSection(this)' value='1/1'>100%</button>
@@ -510,19 +511,7 @@ function clearPageBuilderHovering(){
 
 
 
-//
-function printSingleOption(type, name){
-    if (type == 'text'){
-        return  `<div class="singleOption" id="`+name+`">
-                    <p>Name</p>
-                    <div class="singleTextInput">
-                        <input type='text' id='`+name+`-val' oninput='if (this.value != "") { document.getElementById("`+name+`-button").style.opacity = "1"; } else { document.getElementById("`+name+`-button").style.opacity = "0"; }'>
-                        <button id='`+name+`-button' onclick='document.getElementById("`+name+`-val").value = ""; this.style.opacity = "0";' style='opacity: 0;'>X</button>
-                    </div>
-                </div>`
-    }
-}
-//!!
+
 
 
 // Footer Files Tabs
@@ -563,7 +552,7 @@ function createSidebarDragElements(){
 
     document.querySelector('#dragElementsSidebar .con-header .con-title').innerHTML =    `Drag Elements Into Page`;
 
-    document.querySelector('#dragElementsSidebar .con-body').innerHTML +=  printSingleOption('text','newRowName')+`<div class="singleOption listOfElements" >
+    document.querySelector('#dragElementsSidebar .con-body').innerHTML +=  printAdvInputByType('text','newRowName')+`<div class="singleOption listOfElements" >
                                                                                                                 <p>Elements</p>
                                                                                                                 <div class="options">
                                                                                                                     <div class="singleElem">
